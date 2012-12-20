@@ -1,0 +1,92 @@
+/**
+ * Table整体样式
+ */
+.my-table-class {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 80%;
+}
+
+/**
+ * 表头样式 TableHeader
+ */
+.my-table-header-class tr {
+    background-color: #ccc;
+}
+.my-table-header-class th {
+    border: 1px solid #888;
+    text-align: center;
+    vertical-align: middle;
+}
+
+
+/**
+ * 表足样式 TableFooter
+ */
+.my-table-footer-class tr {
+    background-color: #D4D0C8;
+}
+.my-table-footer-class td {
+    border: 1px solid #888;
+    text-align: center;
+    vertical-align: middle;
+}
+
+
+/**
+ * 表身样式 TableBody
+ */
+.my-table-body-class tr {
+    background-color: #EFEFEF;
+}
+.my-table-body-class td {
+    border: 1px solid #888;
+    text-align: center;
+    vertical-align: middle;
+    height: 25px;
+}
+
+/**
+ * 表身中tr hover变色样式
+ */
+.my-table-body-hover-class {
+    background-color: #E4EAF9 !important;
+}
+
+/**
+ * 子表格样式，注意此类嵌入到tr中
+ */
+.my-sub-table-tr-class {
+    background-color: #E7ECEE !important;
+}
+.my-sub-table-tr-class td {
+    border: 1px solid #888;
+    text-align: center;
+    vertical-align: middle;
+    height: 15px;
+}
+
+/**
+ * 折叠icon样式
+ */
+.sub-table-icon {
+    background-color: #fff;
+    border: 1px solid #818181;
+    color: #818181;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 90%;
+    padding: 0;
+    margin: 0 10px 0 0;
+    width: 9px;
+    height: 9px;
+    line-height: 10px;
+}
+
+
+/**
+ * 折叠icon样式（hover）
+ */
+.sub-table-icon:hover {
+    background-color: #D4D0C8;
+}
