@@ -54,6 +54,9 @@ var sTable = function(preOpt) {
     
     // 子表格数据字段
     var _subTable   = '';
+
+    // 虫洞容器
+    var _wormholes  = {};
     
     // helper
     var toString = Object.prototype.toString;
@@ -109,6 +112,14 @@ var sTable = function(preOpt) {
         getTableBody: function(callback) {
             var me = this;
             callback.call(me, _tableBody);
+            return me;
+        },
+
+        // 设置父元素
+        setContainer: function(id) {
+            var me = this;
+            _container = typeof id == 'string'
+                ? document.getElementById(id) : id;
             return me;
         },
         
@@ -209,8 +220,11 @@ var sTable = function(preOpt) {
         // 渲染表足
         renderFooter: function(clear) {
             var me = this;
+            // if(!_opt.fFormat)
+            //     throw ('Empty fFormat!');
+            // 表足可选
             if(!_opt.fFormat)
-                throw ('Empty fFormat!');
+                return me;
             if(clear) 
                 me.clearFooter();
             // 使用-1，在插入多行表足时，总是会插入到最后一行
@@ -300,8 +314,10 @@ var sTable = function(preOpt) {
         },
         
         // 整体渲染
-        render: function() {
+        render: function(clear) {
             var me = this;
+            // 是否预先清空
+            clear && (_container.innerHTML = '');
             // 渲染
             me.renderHeader().renderBody().renderFooter();
             // append
@@ -350,6 +366,63 @@ var sTable = function(preOpt) {
             if(IsloveIterator && !t.forEach) {
                 for(var k = 0, len = t.length; k < len; callback(t[k], k ++, t)){}
             }
+            return me;
+        },
+
+        // 简易全局求和函数，目前支持两个层级
+        summation: function() {
+            var me  = this;
+            var sum = 0;
+            // 有一个参数的情况下，最后一个参数是回调函数
+            if(arguments.length == 2) {
+                for(var i = 0, len = _data.length; i < len; i ++) {
+                    if(_opt.invalidData != undefined 
+                        &&  _data[i][arguments[0]] == _opt.invalidData)
+                        continue; // 注意略过无效数据
+                    sum += (+ _data[i][arguments[0]]);
+                }
+                arguments[1].call(me, sum);
+            }
+            // 有两个参数的情况下
+            if(arguments.length == 3) {
+                for(var i = 0, len = _data.length; i < len; i ++) {
+                    for(var j = 0, lenj = _data[i][arguments[0]].length; j < lenj; j ++) {
+                        if(_opt.invalidData != undefined 
+                            &&  _data[i][arguments[0]][j][arguments[1]] == _opt.invalidData)
+                            continue; // 注意略过无效数据
+                        sum += (+ _data[i][arguments[0]][j][arguments[1]]);
+                    }
+                }
+                arguments[2].call(me, sum);
+            }
+            return me;
+        },
+
+        // 简易单独求和函数
+        summationItem: function(data, field1, field2, callback) {
+            var me  = this;
+            var sum = 0;
+            for(var i = 0, len = data[field1].length; i < len; (sum += (+ data[field1][i][field2])) && i ++) {}
+            callback.call(me, sum);
+            return me;
+        },
+
+        // “虫洞”相关函数
+        addWormHole: function(name, o) {
+            var me = this;
+            _wormholes[name] = o;
+            return me;
+        },
+
+        getWormHole: function(name, callback) {
+            var me = this;
+            callback.call(me, _wormholes[name]);
+            return me;
+        },
+
+        removeWormHole: function(name) {
+            var me = this;
+            delete _wormholes[name];
             return me;
         }
     };
