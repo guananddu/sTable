@@ -402,7 +402,9 @@ var sTable = function(preOpt) {
         summationItem: function(data, field1, field2, callback) {
             var me  = this;
             var sum = 0;
-            for(var i = 0, len = data[field1].length; i < len; (sum += (+ data[field1][i][field2])) && i ++) {}
+            for(var i = 0, len = data[field1].length; i < len; i ++) {
+                sum += (+ data[field1][i][field2]);
+            }
             callback.call(me, sum);
             return me;
         },
