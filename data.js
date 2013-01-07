@@ -2,7 +2,7 @@
  * 模拟测试数据，其中的每一个item中的lll字段属于子表字段
  */
 var data = [{
-		abc : 222,
+		abc : 222123,
 		username : "bbb",
 		lammx : "bbb",
 		asdcxz : true,
@@ -20,7 +20,7 @@ var data = [{
 			}
 		]
 	}, {
-		abc : 223,
+		abc : 2243,
 		username : "bbb",
 		lammx : "bbb",
 		asdcxz : true,
@@ -53,7 +53,7 @@ var data = [{
 			}
 		]
 	}, {
-		abc : 225,
+		abc : 22445,
 		username : "bbb",
 		lammx : "bbb",
 		asdcxz : true,
@@ -88,14 +88,14 @@ var data = [{
 			}
 		]
 	}, {
-		abc : 228,
+		abc : 28,
 		username : "bbb",
 		lammx : "bbb",
 		asdcxz : true,
 		mnb : 22.22,
 		lll : []
 	}, {
-		abc : 232,
+		abc : 2,
 		username : "bbb",
 		lammx : "bbb",
 		asdcxz : true,

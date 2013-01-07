@@ -51,7 +51,7 @@ var conOpt = {
     hFormat: [
         // 可以为函数，会传入当前th、tr、index（索引数）
         function(th, tr, inx) {
-            return '<input _stabletarget_="lefttopcheckbox" type="checkbox" />';
+            return '<input _stabletarget_="lefttopcheckbox" type="checkbox" hidefocus="hidefocus" />';
         }, 
         // 也可以为单纯的字符串，会直接显示
         '账户名', 
@@ -119,7 +119,7 @@ var conOpt = {
     // 表身格式
     bFormat: [
         // 可以为简单字符串
-        '<input _stabletarget_="linecheckbox" type="checkbox" />', 
+        '<input _stabletarget_="linecheckbox" type="checkbox" hidefocus="hidefocus" />', 
         // 也可以为函数，会传入此列的数据等数据
         function(dataItem, i, j, tr, td) {
             return dataItem.abc;

@@ -7,6 +7,46 @@
     font-size: 80%;
 }
 
+/* 设置Chrome下的checkbox样式 */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .my-table-class input[type="checkbox"] {
+        bottom: 2px;
+        cursor: pointer;
+        height: 15px;
+        vertical-align: middle;
+        width: 15px;
+       
+        position: relative;
+        -webkit-appearance: none;
+        -webkit-user-select: none;
+        border: 1px solid rgba(0, 0, 0, 0.25);
+        border-radius: 2px;
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.75);
+        margin: 0 1px 0 0;
+    }
+    /* 画对勾 */
+    .my-table-class input[type="checkbox"]:checked::before {
+        position: absolute;
+        left: 2px;
+        top: 5px;
+        content: '';
+        height: 3px;
+        background-color: #666;
+        width: 95%;
+        -webkit-transform: rotate(120deg);
+    }
+    .my-table-class input[type="checkbox"]:checked::after {
+        position: absolute;
+        left: 0;
+        top: 7px;
+        content: '';
+        height: 3px;
+        width: 5px;
+        background-color: #666;
+        -webkit-transform: rotate(-150deg);
+    }
+}
+
 /**
  * 表头样式 TableHeader
  */
@@ -16,7 +56,8 @@
 .my-table-header-class th {
     border: 1px solid #888;
     text-align: center;
-    vertical-align: middle;
+    /*vertical-align: middle;*/
+    height: 35px;
 }
 
 
@@ -29,7 +70,8 @@
 .my-table-footer-class td {
     border: 1px solid #888;
     text-align: center;
-    vertical-align: middle;
+    /*vertical-align: middle;*/
+    height: 35px;
 }
 
 
@@ -42,8 +84,8 @@
 .my-table-body-class td {
     border: 1px solid #888;
     text-align: center;
-    vertical-align: middle;
-    height: 25px;
+    /*vertical-align: middle;*/
+    height: 40px;
 }
 
 /**
@@ -62,31 +104,82 @@
 .my-sub-table-tr-class td {
     border: 1px solid #888;
     text-align: center;
-    vertical-align: middle;
-    height: 15px;
+    /*vertical-align: middle;*/
+    height: 20px;
 }
 
 /**
  * 折叠icon样式
  */
 .sub-table-icon {
-    background-color: #fff;
-    border: 1px solid #818181;
-    color: #818181;
     cursor: pointer;
     display: inline-block;
     font-size: 90%;
     padding: 0;
-    margin: 0 10px 0 0;
-    width: 9px;
-    height: 9px;
+    margin: 0;
+    width: 10px;
+    height: 10px;
     line-height: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    +top: -2px;
+    +left: 1px;
 }
-
+.sub-table-icon-outer {
+    color: #818181;
+    border-radius: 2px;
+    background-color: #fff;
+    border: 1px solid #818181;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    top: 50%;
+    /* 设置左偏移*/
+    left: 15%;
+    margin-top: -5px;
+}
 
 /**
  * 折叠icon样式（hover）
  */
-.sub-table-icon:hover {
+.sub-table-icon-outer:hover {
+    color: #fff;
     background-color: #D4D0C8;
+    -webkit-animation: subTableIconOuterHover 0.5s linear infinite alternate; 
+    -webkit-transform-origin: 0% 0%;
+    -moz-animation: subTableIconOuterHover 0.5s linear infinite alternate; 
+    -moz-transform-origin: 0% 0%;
+    animation: subTableIconOuterHover 0.5s linear infinite alternate; 
+    transform-origin: 0% 0%;
+}
+@-webkit-keyframes subTableIconOuterHover{
+    0%{
+        color: #818181;
+        background-color: #fff;
+    }
+    100%{
+        color: #fff;
+        background-color: #D4D0C8;
+    }
+}
+@-moz-keyframes subTableIconOuterHover{
+    0%{
+        color: #818181;
+        background-color: #fff;
+    }
+    100%{
+        color: #fff;
+        background-color: #D4D0C8;
+    }
+}
+@keyframes subTableIconOuterHover{
+    0%{
+        color: #818181;
+        background-color: #fff;
+    }
+    100%{
+        color: #fff;
+        background-color: #D4D0C8;
+    }
 }

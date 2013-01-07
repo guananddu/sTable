@@ -296,7 +296,11 @@ var sTable = function(preOpt) {
                         && (_subTable = _opt.bFormatMore[j].subTable) 
                         //&& (td.innerHTML = _getSubIcon.call(me, i, j) + td.innerHTML);
                         && _getSubIcon.call(me, i, j, function(s){
-                            td.innerHTML = s + td.innerHTML;
+                            td.innerHTML = '<div style="position:relative;">' +
+                                                '<span style="display:inline-block; vertical-align:middle;">' + 
+                                                    s + td.innerHTML + 
+                                                '</span>' + 
+                                            '</div>';
                         });
                 }
             }
@@ -434,7 +438,9 @@ var sTable = function(preOpt) {
     function _getSubIcon(i, j, callback) {
         var me = this;
         callback(
-            '<span _stabletarget_="sub-icon" data="' + i + '-' + j + '" rollup="1" class="sub-table-icon">+</span>'
+            '<div class="sub-table-icon-outer">' +
+                '<span _stabletarget_="sub-icon" data="' + i + '-' + j + '" rollup="1" class="sub-table-icon">+</span>' +
+            '</div>'
         );
         return me;
     };
@@ -465,7 +471,14 @@ var sTable = function(preOpt) {
         // 数据索引
         var dataIndex   = data.split('-')[0];
         // 开始插入位置的索引
-        var insertIndex = target.parentNode.parentNode.rowIndex - _headerRows + 1;
+        var insertIndex = target
+            .parentNode
+            .parentNode
+            .parentNode
+            .parentNode
+            .parentNode
+            .rowIndex - _headerRows + 1;
+        // 太鸡肋了。。↑↑↑
         // 最大长度
         var subData   = _data[dataIndex][_subTable];
         var maxLength = subData.length;
