@@ -407,6 +407,9 @@ var sTable = function(preOpt) {
             var me  = this;
             var sum = 0;
             for(var i = 0, len = data[field1].length; i < len; i ++) {
+                if(_opt.invalidData != undefined
+                    && data[field1][i][field2] == _opt.invalidData)
+                    continue; // 注意略过无效数据
                 sum += (+ data[field1][i][field2]);
             }
             callback.call(me, sum);
