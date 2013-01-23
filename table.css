@@ -183,3 +183,51 @@
         background-color: #D4D0C8;
     }
 }
+
+/* 可排序icon */
+.sortable-icon-container {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    /* 设置左偏移*/
+    right: 10px;
+    margin-top: -10px;
+}
+
+.sort-up-icon {
+    cursor: pointer;
+    width: 0px; 
+    height: 0px; 
+    display: inline-block; 
+    position: absolute;
+    border: 5px solid #ccc; 
+    border-bottom-color: #eee; 
+    font-size: 0; 
+    top: -1px;
+    left: 0;
+}
+.sort-up-icon:hover {
+    border-bottom-color: #272822; 
+}
+.sort-down-icon {
+    cursor: pointer;
+    width: 0px; 
+    height: 0px; 
+    display: inline-block; 
+    position: absolute;
+    border: 5px solid #ccc; 
+    border-top-color: #eee; 
+    font-size: 0; 
+    bottom: -1px;
+    left: 0;
+}
+.sort-down-icon:hover {
+    border-top-color: #272822; 
+}
+.sort-up-icon-selected {
+    border-bottom-color: #272822; 
+}
+.sort-down-icon-selected {
+    border-top-color: #272822; 
+}

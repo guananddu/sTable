@@ -260,3 +260,126 @@ meTable.setData(data).render()
         for(var i = 0, len = all.length; i < len; all[i ++].checked = target.checked){}
     }, false);
 });
+
+// 下面讲述如何使用排序功能，处于注释状态
+// 设置各种id和class
+/*
+var _preOpt = {
+    // 父元素（可以是id或Dom元素，必须）
+    container: 'table-container',
+    // 设置主表格的id和class（即table元素的id或class，两者都可选）
+    id: 'my-table-id',
+    className: 'my-table-class',
+
+    // 设置表头的id或者class（可选）
+    header: {
+        id: 'my-table-header-id',
+        className: 'my-table-header-class'
+    },
+
+    // 设置表足的id或者class（可选）
+    footer: {
+        id: 'my-table-footer-id',
+        className: 'my-table-footer-class'
+    },
+
+    // 设置表身（tbody元素）的id或者class（可选）
+    body: {
+        id: 'my-table-body-id',
+        className: 'my-table-body-class'
+    },
+
+    // 设置子表格中每一个tr的class（可选，通过它可以为子表格添加一些特殊样式）
+    subTableTrClass: 'my-sub-table-tr-class',
+
+    // 主表格中的tr hover时切换的类（可选，通过它可以设置主表格被hover时的样式）
+    tableTrHover: 'my-table-body-hover-class',
+
+    // 子表格hover的颜色（可选，子表格hover时候的颜色设置）
+    subTableTrColor: {
+        hover: '#E4EAF9',
+        out: '#E7ECEE'
+    }
+};
+// 展现等逻辑配置
+var _conOpt = {
+    // 设置表头具体格式
+    hFormat: [
+        '序号', 
+        '检索词', 
+        // function(th, tr, inx) {},
+        '检索次数', 
+        '所在频道',
+        '普通结果数'
+    ],
+
+    // 表头杂项设置，现在可以通过百分数来确定每一个列的宽度
+    hFormatMore : [
+        {
+            width : '10%'
+        }, 
+        {
+            // 检索词，需要拥有排序功能
+            sortable: true,
+            sortfield: 'word',
+            sorttype: 'string'
+        }, 
+        {
+            width : '15%',
+            // 默认此列降序排列
+            sortable: 'desc',
+            // 'asc'，此是升序
+            sortfield: 'queryCount',
+            sorttype: 'num'
+        }, 
+        {
+            width : '20%'
+        }, //此列可以自由伸缩
+        {
+            width : '15%',
+            sortable: true,
+            sortfield: 'resultNum',
+            sorttype: 'num'
+        }
+    ],
+
+    // 表身格式
+    bFormat: [
+        function(dataItem, i, j, tr, td) {
+            return (+ i + 1);
+        }, 
+        function(dataItem, i, j, tr, td) {
+            return encodeHTML(dataItem.word);
+        }, 
+        function(dataItem, i, j, tr, td) {
+            return dataItem.queryCount;
+        }, 
+        function(dataItem, i, j, tr, td) {
+            return _products[dataItem.channel];
+        }, 
+        function(dataItem, i, j, tr, td) {
+            return dataItem.resultNum;
+        }
+    ]
+    // ,
+
+    // // bFormatMore，设置对齐方式
+    // bFormatMore: [
+    //     {
+    //         textAlign: 'right'
+    //     },
+    //     {},
+    //     {
+    //         textAlign: 'right'
+    //     },
+    //     {},
+    //     {
+    //         textAlign: 'right'
+    //     }
+    // ]
+};
+// 生成构造函数
+var myTableConstructor = sTable(_preOpt);
+// 表格初始化
+var meTable = new myTableConstructor(_conOpt);
+*/

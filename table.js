@@ -1,7 +1,7 @@
 /**
  * sTable外部构造函数
  * 基本特性：
- * 支持子表、支持单元格合并、支持链式调用、支持初始化时配置和重新配置、渲染
+ * 支持子表、支持单元格合并、支持链式调用、简单排序、支持初始化时配置和重新配置、渲染
  */
 var sTable = function(preOpt) {
     // 表格元素
@@ -45,6 +45,8 @@ var sTable = function(preOpt) {
     var _opt;
     // 数据
     var _data;
+    // 原始数据
+    var _elderData;
     // 表头行数
     var _headerRows = 0;
     // 表身行数
@@ -57,6 +59,12 @@ var sTable = function(preOpt) {
 
     // 虫洞容器
     var _wormholes  = {};
+
+    // id记录器
+    var _ids        = 0;
+
+    // 临时变量容器
+    var _pool       = {};
     
     // helper
     var toString = Object.prototype.toString;
@@ -80,6 +88,7 @@ var sTable = function(preOpt) {
                 continue;
             _opt[i] = conOpt[i];
         }
+        this._id = (++ _ids);
     };
     
     // 原型方法
@@ -126,7 +135,9 @@ var sTable = function(preOpt) {
         // 设置数据（可以设置最原始的数据，然后设置数据适配器，典型的数据结构就像上方的测试data）
         setData: function(data) {
             var me = this;
-            data && (_data = _opt.dataAdapter ? _opt.dataAdapter.call(me, data) : data);
+            data
+                && (_elderData = data) 
+                && (_data = _opt.dataAdapter ? _opt.dataAdapter.call(me, data) : data);
             return me;
         },
         
@@ -203,9 +214,30 @@ var sTable = function(preOpt) {
                     : typeof _opt.hFormat[i] === 'function'
                     ? _opt.hFormat[i].call(me, th, tr, i)
                     : '';
+                // 可排序处理
+                _opt.hFormatMore
+                    && _opt.hFormatMore[i]
+                    && (_opt.hFormatMore[i].sortable != undefined)
+                    && _getSortableIcon.call(
+                        me, 
+                        i, 
+                        _opt.hFormatMore[i].sortable, 
+                        _opt.hFormatMore[i].sortfield,
+                        _opt.hFormatMore[i].sorttype,
+                        function(s) {
+                            th.innerHTML = _wrapTd(s + th.innerHTML);
+                        }
+                    );
                 tr.appendChild(th);
             }
-            return me;
+            // 绑定排序事件
+            return me
+                .on('click', 'sort-up', function() {
+                    _innerSort.call(me, this);
+                })
+                .on('click', 'sort-down', function() {
+                    _innerSort.call(me, this);
+                });
         },
         
         // 清空表头
@@ -287,6 +319,11 @@ var sTable = function(preOpt) {
                         : typeof _opt.bFormat[j] === 'function'
                         ? _opt.bFormat[j].call(me, dataItem, i, j, tr, td)
                         : '';
+                    // 对齐处理
+                    _opt.bFormatMore
+                        && _opt.bFormatMore[j] 
+                        && _opt.bFormatMore[j].textAlign
+                        && (td.style.textAlign = _opt.bFormatMore[j].textAlign);
                     // 子表格处理
                     _opt.bFormatMore 
                         && _opt.bFormatMore[j] 
@@ -294,13 +331,13 @@ var sTable = function(preOpt) {
                         && _opt.bFormatMore[j].enabledCase 
                         && _opt.bFormatMore[j].enabledCase(dataItem, i, j) 
                         && (_subTable = _opt.bFormatMore[j].subTable) 
-                        //&& (td.innerHTML = _getSubIcon.call(me, i, j) + td.innerHTML);
                         && _getSubIcon.call(me, i, j, function(s){
-                            td.innerHTML = '<div style="position:relative;">' +
+                            /*td.innerHTML = '<div style="position:relative;">' +
                                                 '<span style="display:inline-block; vertical-align:middle;">' + 
                                                     s + td.innerHTML + 
                                                 '</span>' + 
-                                            '</div>';
+                                            '</div>';*/
+                            td.innerHTML = _wrapTd(s + td.innerHTML);
                         });
                 }
             }
@@ -323,7 +360,10 @@ var sTable = function(preOpt) {
             // 是否预先清空
             clear && (_container.innerHTML = '');
             // 渲染
-            me.renderHeader().renderBody().renderFooter();
+            me
+                .renderHeader(clear)
+                .renderBody()
+                .renderFooter(clear);
             // append
             _container.appendChild(_table);
             return me;
@@ -416,6 +456,30 @@ var sTable = function(preOpt) {
             return me;
         },
 
+        // 排序函数（不支持符合排序）
+        sort: function(field, sorttype, type) {
+            var me    = this;
+            var sorts = {
+                // 数字排序函数
+                num: function(a, b) {
+                    return (type == 'asc' 
+                        ? (a[field] - b[field]) 
+                        : (b[field] - a[field]));
+                },
+                // 针对中文字符串的排序
+                string: function(a, b) {
+                    return (type == 'asc' 
+                        ? a[field].localeCompare(b[field]) 
+                        : b[field].localeCompare(a[field]));
+                }
+            };
+            // 针对_data进行排序
+            _data = _data.sort(sorts[sorttype]);
+            // 渲染body
+            // me.renderBody();
+            return me;
+        },
+
         // “虫洞”相关函数
         addWormHole: function(name, o) {
             var me = this;
@@ -433,10 +497,49 @@ var sTable = function(preOpt) {
             var me = this;
             delete _wormholes[name];
             return me;
+        },
+
+        // 简易缓存函数
+        getTemp: function(name) {
+            var me = this;
+            return _pool[me._id][name];
+        },
+        setTemp: function(name, value) {
+            var me = this;
+            (_pool[me._id] = _pool[me._id] || {})[name] = value;
+            return me;
+        },
+        hasTemp: function(name) {
+            var me = this;
+            return !!(_pool[me._id] && (_pool[me._id][name] != undefined));
+            return me;
         }
     };
     
     // 私有方法
+    // 包装td单元格
+    function _wrapTd(input) {
+        return  '<div style="position:relative;">' +
+                    '<span style="display:inline-block; vertical-align:middle;">' + 
+                        input + 
+                    '</span>' + 
+                '</div>';
+    };
+
+    // 按需生成可点击排序小icon
+    function _getSortableIcon(i, sortable, sortfield, sorttype, callback) {
+        var me = this;
+        callback(
+            '<div class="sortable-icon-container">' +
+                '<span _stabletarget_="sort-up" sort-type="' + sorttype + '" inx-data="' + i + '" type="asc" sort-field="' + sortfield + '" class="sort-up-icon' + 
+                ((sortable == 'asc') ? ' sort-up-icon-selected' : '') + '"></span>' +
+                '<span _stabletarget_="sort-down" sort-type="' + sorttype + '" inx-data="' + i + '" type="desc" sort-field="' + sortfield + '" class="sort-down-icon' + 
+                ((sortable == 'desc') ? ' sort-down-icon-selected' : '') + '"></span>' +
+            '</div>'
+        );
+        return me;
+    };
+     
     // 生成可点击的小icon
     function _getSubIcon(i, j, callback) {
         var me = this;
@@ -445,6 +548,57 @@ var sTable = function(preOpt) {
                 '<span _stabletarget_="sub-icon" data="' + i + '-' + j + '" rollup="1" class="sub-table-icon">+</span>' +
             '</div>'
         );
+        return me;
+    };
+
+    // 排序的点击事件
+    function _innerSort(target) {
+        var me = this;
+        var className = target.className;
+        if(~className.indexOf('selected'))
+            return;
+        var type      = target.getAttribute('type'); // asc/desc
+        var sortfield = target.getAttribute('sort-field');
+        var sorttype  = target.getAttribute('sort-type');
+        var datainx   = target.getAttribute('inx-data');
+        var clear     = function(o) {
+            ~o.className.indexOf('selected')
+                && (o.className 
+                        = o.className.substring(
+                            0, o.className.indexOf(' ')
+                            ));
+        };
+        // 清除标记
+        me
+            .getStableTargetEles('sort-up', clear)
+            .getStableTargetEles('sort-down', clear);
+        // 将此标记为selected
+        target.className +=
+            (type == 'asc' 
+                ? ' sort-up-icon-selected' 
+                : ' sort-down-icon-selected');
+        // 执行排序
+        me
+            .sort(sortfield, sorttype, type)
+            .renderBody();
+        // 记录排序规则
+        me
+            .setTemp('sortfield', sortfield)
+            .setTemp('sorttype', sorttype)
+            .setTemp('type', type);
+        // 记录配置变更
+        for(var i = 0, len = _opt.hFormatMore.length; i < len; i ++) {
+            // 先复原
+            _opt.hFormatMore[i].sortable != undefined
+                && (_opt.hFormatMore[i].sortable = true);
+        }
+        _opt.hFormatMore[datainx].sortable = type;
+    };
+
+    // 获取原始数据
+    function _getData(callback) {
+        var me = this;
+        callback(_elderData);
         return me;
     };
     
