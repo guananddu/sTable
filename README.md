@@ -7,3 +7,7 @@ sTable
 演示地址：
 
 [http://guananddu.github.com/gTools/component/sTable/main.html](http://guananddu.github.com/gTools/component/sTable/main.html)
+
+GitHub Pages:
+
+[http://guananddu.github.com/sTable/](http://guananddu.github.com/sTable/)
