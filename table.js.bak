@@ -369,14 +369,6 @@ var sTable = function(preOpt) {
             return me;
         },
         
-        // 整体清空
-        clear: function(text) {
-            var me = this;
-            _container.innerHTML = 
-                text ? text : '';
-            return me;
-        },
-
         // 增加事件监听器
         on: function(type, target, func) {
             var me = this;
