@@ -1,0 +1,235 @@
+/**
+ * sTable整体样式
+ */
+@stable-prefix: zx-edu-audit-table;
+
+.@{stable-prefix} {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 80%;
+
+    /**
+     * 表头样式 TableHeader
+     */
+    .@{stable-prefix}-header tr {
+        background-color: #d4d0c7;
+    }
+    .@{stable-prefix}-header th {
+        border: 1px solid silver;
+        text-align: left;
+        /*vertical-align: middle;*/
+        height: 35px;
+        padding: 0 4px;
+    }
+
+    /**
+     * 表足样式 TableFooter
+     */
+    .@{stable-prefix}-footer tr {
+        background-color: #D4D0C8;
+    }
+    .@{stable-prefix}-footer td {
+        border: 1px solid silver;
+        text-align: left;
+        /*vertical-align: middle;*/
+        height: 35px;
+        padding: 0 4px;
+    }
+
+    /**
+     * 表身样式 TableBody
+     */
+    .@{stable-prefix}-body tr {
+        background-color: #fff;
+    }
+    .@{stable-prefix}-body td {
+        border: 1px solid silver;
+        text-align: left;
+        /*vertical-align: middle;*/
+        height: 40px;
+        padding: 0 4px;
+    }
+
+    /**
+     * 表身中tr hover变色样式
+     */
+    .@{stable-prefix}-trhover {
+        background-color: #aff4f7 !important;
+    }
+
+    /**
+     * 子表格样式，注意此类嵌入到tr中
+     */
+    .@{stable-prefix}-subtrhover {
+        background-color: #E7ECEE !important;
+    }
+    .@{stable-prefix}-subtrhover td {
+        border: 1px solid silver;
+        text-align: center;
+        /*vertical-align: middle;*/
+        height: 20px;
+    }
+
+    /**
+     * 折叠icon样式
+     */
+    .sub-table-icon {
+        cursor: pointer;
+        display: inline-block;
+        font-size: 90%;
+        padding: 0;
+        margin: 0;
+        width: 10px;
+        height: 10px;
+        line-height: 10px;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .sub-table-icon-outer {
+        color: #818181;
+        border-radius: 2px;
+        background-color: #fff;
+        border: 1px solid #818181;
+        width: 10px;
+        height: 10px;
+        position: absolute;
+        top: 50%;
+        /* 设置左偏移*/
+        left: 15%;
+        margin-top: -5px;
+    }
+
+    /**
+     * 折叠icon样式（hover）
+     */
+    .sub-table-icon-outer:hover {
+        color: #fff;
+        background-color: #D4D0C8;
+        -webkit-animation: subTableIconOuterHover 0.5s linear infinite alternate; 
+        -webkit-transform-origin: 0% 0%;
+        -moz-animation: subTableIconOuterHover 0.5s linear infinite alternate; 
+        -moz-transform-origin: 0% 0%;
+        animation: subTableIconOuterHover 0.5s linear infinite alternate; 
+        transform-origin: 0% 0%;
+    }
+    @-webkit-keyframes subTableIconOuterHover{
+        0%{
+            color: #818181;
+            background-color: #fff;
+        }
+        100%{
+            color: #fff;
+            background-color: #D4D0C8;
+        }
+    }
+    @-moz-keyframes subTableIconOuterHover{
+        0%{
+            color: #818181;
+            background-color: #fff;
+        }
+        100%{
+            color: #fff;
+            background-color: #D4D0C8;
+        }
+    }
+    @keyframes subTableIconOuterHover{
+        0%{
+            color: #818181;
+            background-color: #fff;
+        }
+        100%{
+            color: #fff;
+            background-color: #D4D0C8;
+        }
+    }
+
+    /* 可排序icon */
+    .sortable-icon-container {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        top: 50%;
+        /* 设置左偏移*/
+        right: 10px;
+        margin-top: -10px;
+    }
+
+    .sort-up-icon {
+        cursor: pointer;
+        width: 0px; 
+        height: 0px; 
+        display: inline-block; 
+        position: absolute;
+        border: 5px solid #ccc; 
+        border-bottom-color: #eee; 
+        font-size: 0; 
+        top: -1px;
+        left: 0;
+    }
+    .sort-up-icon:hover {
+        border-bottom-color: #272822; 
+    }
+    .sort-down-icon {
+        cursor: pointer;
+        width: 0px; 
+        height: 0px; 
+        display: inline-block; 
+        position: absolute;
+        border: 5px solid #ccc; 
+        border-top-color: #eee; 
+        font-size: 0; 
+        bottom: -1px;
+        left: 0;
+    }
+    .sort-down-icon:hover {
+        border-top-color: #272822; 
+    }
+    .sort-up-icon-selected {
+        border-bottom-color: #272822; 
+    }
+    .sort-down-icon-selected {
+        border-top-color: #272822; 
+    }
+
+}
+
+/* 设置Chrome下的checkbox样式 */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .@{stable-prefix} input[type="checkbox"] {
+        bottom: 2px;
+        cursor: pointer;
+        height: 15px;
+        vertical-align: middle;
+        width: 15px;
+       
+        position: relative;
+        -webkit-appearance: none;
+        -webkit-user-select: none;
+        border: 1px solid rgba(0, 0, 0, 0.25);
+        border-radius: 2px;
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.75);
+        margin: 0 1px 0 0;
+    }
+    /* 画对勾 */
+    .@{stable-prefix} input[type="checkbox"]:checked::before {
+        position: absolute;
+        left: 2px;
+        top: 5px;
+        content: '';
+        height: 3px;
+        background-color: #666;
+        width: 95%;
+        -webkit-transform: rotate(120deg);
+    }
+    .@{stable-prefix} input[type="checkbox"]:checked::after {
+        position: absolute;
+        left: 0;
+        top: 7px;
+        content: '';
+        height: 3px;
+        width: 5px;
+        background-color: #666;
+        -webkit-transform: rotate(-150deg);
+    }
+}
