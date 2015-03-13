@@ -3,11 +3,11 @@
 <head>
     <meta charset="utf-8" />
     <title>简易Table组件 - 支持子表 - 支持单元格合并</title>
-    <link rel="stylesheet" href="table.css" />
+    <link rel="stylesheet" href="table.less" />
     <style>
     /* Table容器样式 */
     #container {
-        width: 700px;
+        width: 900px;
         margin: 0 auto;
         padding: 10px;
     }
@@ -16,11 +16,22 @@
 <body>
     <!-- Table容器 -->
     <div id="container"></div>
-    <!-- 模拟Table数据文件 -->
-    <script src="data.js"></script>
-    <!-- Table组件主函数 -->
+
+    <!-- 第二个容器防止第二个列表 -->
+    <div id="container2"></div>
+
+    <script src="esl.js"></script>
     <script src="table.js"></script>
-    <!-- 初始化 -->
-    <script src="init.js"></script>
+
+    <script src="data.js"></script>
+    <script src="data2.js"></script>
+
+    <script type="text/javascript">
+        require.config( {
+            baseUrl: '.'
+        } );
+        require( [ 'init' ] );
+        require( [ 'init2' ] );
+    </script>
 </body>
 </html>

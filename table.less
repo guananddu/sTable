@@ -1,7 +1,7 @@
 /**
  * sTable整体样式
  */
-@stable-prefix: zx-edu-audit-table;
+@stable-prefix: my-table;
 
 .@{stable-prefix} {
     border-collapse: collapse;
@@ -60,12 +60,12 @@
     /**
      * 子表格样式，注意此类嵌入到tr中
      */
-    .@{stable-prefix}-subtrhover {
+    .@{stable-prefix}-subtr {
         background-color: #E7ECEE !important;
     }
-    .@{stable-prefix}-subtrhover td {
+    .@{stable-prefix}-subtr td {
         border: 1px solid silver;
-        text-align: center;
+        text-align: left;
         /*vertical-align: middle;*/
         height: 20px;
     }
@@ -81,7 +81,7 @@
         margin: 0;
         width: 10px;
         height: 10px;
-        line-height: 10px;
+        line-height: 12px;
         position: absolute;
         top: 0;
         left: 0;
@@ -96,7 +96,8 @@
         position: absolute;
         top: 50%;
         /* 设置左偏移*/
-        left: 15%;
+        right: 15%;
+        text-align: center;
         margin-top: -5px;
     }
 
