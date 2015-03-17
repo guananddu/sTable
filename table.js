@@ -344,6 +344,9 @@ define( function( require ) {
             // 整体清空
             clear: function( text ) {
                 var me = this;
+                me.clearHeader();
+                me.clearFooter();
+                me.clearBody();
                 _container.innerHTML =
                     text ? text : '';
                 return me;
