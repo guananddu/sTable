@@ -9,18 +9,23 @@
 
 define( function( require ) {
 
-    var sTable = function( preOpt ) {
+    var _table, _container, _tableHeader, _tableFooter, _tableBody;
+
+    var _preOpt;
+
+    var _createPre = function ( preOpt ) {
+
         // 表格元素
-        var _table = document.createElement( 'table' );
+        _table = document.createElement( 'table' );
         // 表格的父元素，会进行append，必须
-        var _container = typeof preOpt.container == 'string' ? document.getElementById( preOpt.container ) : preOpt.container;
+        _container = typeof preOpt.container == 'string' ? document.getElementById( preOpt.container ) : preOpt.container;
         // 表格id，非必须
         preOpt.id && _table.setAttribute( 'id', preOpt.id );
         // 表格class，非必须
         preOpt.className && ( _table.className = preOpt.className );
 
         // 表头元素
-        var _tableHeader = _table.createTHead( );
+        _tableHeader = _table.createTHead( );
         // 设置表头的id或class，非必须
         preOpt.header && preOpt.header.id && _tableHeader.setAttribute( 'id', preOpt.header.id );
         preOpt.header && preOpt.header.className && ( _tableHeader.className = preOpt.header.className );
@@ -28,7 +33,7 @@ define( function( require ) {
         _tableHeader.className || ( _tableHeader.className = ( preOpt.className + '-header' ) );
 
         //表足元素
-        var _tableFooter = _table.createTFoot( );
+        _tableFooter = _table.createTFoot( );
         // 设置表足的id或class，非必须
         preOpt.footer && preOpt.footer.id && _tableFooter.setAttribute( 'id', preOpt.footer.id );
         preOpt.footer && preOpt.footer.className && ( _tableFooter.className = preOpt.footer.className );
@@ -36,7 +41,7 @@ define( function( require ) {
         _tableFooter.className || ( _tableFooter.className = ( preOpt.className + '-footer' ) );
 
         // 表身元素
-        var _tableBody = document.createElement( 'tbody' );
+        _tableBody = document.createElement( 'tbody' );
         // 设置表身的id或class，非必须
         preOpt.body && preOpt.body.id && _tableBody.setAttribute( 'id', preOpt.body.id );
         preOpt.body && preOpt.body.className && ( _tableBody.className = preOpt.body.className );
@@ -45,6 +50,16 @@ define( function( require ) {
 
         // 插入表身
         _table.insertBefore( _tableBody, _tableFooter );
+
+        _container.appendChild( _table );
+
+    };
+
+    var sTable = function( preOpt ) {
+        
+        _createPre( preOpt );
+
+        _preOpt = preOpt;
 
         // 私有属性
         // 配置项
@@ -329,15 +344,24 @@ define( function( require ) {
             render: function( clear ) {
                 var me = this;
                 // 是否预先清空
-                clear && ( _container.innerHTML = '' );
+                if ( clear ) {
+                    _container.innerHTML = '';
+                    me._clearCalled = true;
+                }
+
+                if ( me._clearCalled ) {
+                    _createPre( _preOpt );
+                }
+
                 // 渲染
                 !me._headerRendered && me.renderHeader( clear );
                 me.renderBody( );
                 !me._footerRendered && me.renderFooter( clear );
                 // append
-                !me._tableAppended && _container.appendChild( _table );
+                // !me._tableAppended && _container.appendChild( _table );
                 // 第一次渲染的时候
                 me._tableAppended = true;
+                me._clearCalled = false;
                 return me;
             },
 
@@ -349,6 +373,8 @@ define( function( require ) {
                 me.clearBody();
                 _container.innerHTML =
                     text ? text : '';
+
+                me._clearCalled = true;
                 return me;
             },
 
