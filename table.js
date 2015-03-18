@@ -381,7 +381,7 @@ define( function( require ) {
             // 增加事件监听器
             on: function( type, target, func ) {
                 var me = this;
-                addEvent( _table, type, _eventAgency.call( me, target, func ) );
+                addEvent( _container, type, _eventAgency.call( me, target, func ) );
                 return me;
             },
 
