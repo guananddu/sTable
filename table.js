@@ -294,6 +294,12 @@ define( function( require ) {
                 _bodyRows > 0 && me.clearBody( );
                 for ( var i = 0, len = _data.length; i < len; i++ ) {
                     var dataItem = _data[ i ];
+
+                    // 如果发现不合法数据
+                    if ( dataItem._invalid_ ) {
+                        continue;
+                    }
+
                     // 插入行
                     var tr = _tableBody.insertRow( _tableBody.rows.length );
                     _bodyRows++;
