@@ -241,7 +241,10 @@ define( function( require ) {
             clearHeader: function( ) {
                 var me = this;
                 return me.getTableHeader( function( o ) {
-                    o.innerHTML = '';
+                    // for ie 7,8
+                    try {
+                        o.innerHTML = '';
+                    } catch( e ) { }
                     _headerRows = 0;
                     me._headerRendered = false;
                 } );
@@ -275,7 +278,10 @@ define( function( require ) {
             clearFooter: function( ) {
                 var me = this;
                 return me.getTableFooter( function( o ) {
-                    o.innerHTML = '';
+                    // for ie 7,8
+                    try {
+                        o.innerHTML = '';
+                    } catch( e ) { }
                     _footerRows = 0;
                     me._footerRendered = false;
                 } );
@@ -305,7 +311,7 @@ define( function( require ) {
                     _bodyRows++;
                     // 设置事件监听标记
                     _opt.tableTrHover || ( _opt.tableTrHover = ( _opt.className + '-trhover' ) );
-                    _opt.tableTrHover && ( tr.onmouseover = function( ) {
+                    !_opt.notHoverChange && _opt.tableTrHover && ( tr.onmouseover = function( ) {
                         this.className = _opt.tableTrHover;
                     } ) && ( tr.onmouseout = function( ) {
                         this.className = '';
@@ -341,7 +347,10 @@ define( function( require ) {
             clearBody: function( ) {
                 var me = this;
                 return me.getTableBody( function( o ) {
-                    o.innerHTML = '';
+                    // for ie 7,8
+                    try {
+                        o.innerHTML = '';
+                    } catch( e ) { }
                     _bodyRows = 0;
                 } );
             },
